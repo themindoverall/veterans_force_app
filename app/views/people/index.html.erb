@@ -1,0 +1,71 @@
+<br />
+<div class="container">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#search" data-toggle="tab">Search</a></li>
+		<li><a href="#vouch" data-toggle="tab">Vouch for friends</a></li>
+		<li><a href="#follow" data-toggle="tab">People I follow</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="search">
+			<div class="col-lg-3">
+				<br />
+				<%= form_tag nil, method: 'POST', id: "contact_search" do %>
+					<%= text_field_tag 'name', nil, placeholder: 'Name', class: 'form-control' %>
+					<%= text_field_tag 'location', nil, placeholder: 'City or Zip', class: 'form-control' %>
+					<hr />
+					<h5>Limit by branch:</h5>
+					<% ['Army', 'Navy', 'Marines', 'Air Force', 'Coast Guard'].each do |branch| %>
+						<div class="checkbox">
+							<label>
+								<input type="checkbox" name="branches[]" value="<%= branch %>">
+								<%= branch %>
+							</label>
+						</div>
+					<% end %>
+					<hr />
+					<h5>Limit by tour:</h5>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="served_oif" value="1">
+							Served in OIF between
+						</label>
+					</div>
+					<div>
+						<input type="text" value="" class="form-control date-slider" name="oif-dates">
+					</div>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" name="served_oef" value="1">
+							Served in OEF between
+						</label>
+					</div>
+					<div>
+						<input type="text" value="" class="form-control date-slider" name="oef-dates">
+					</div>
+				<% end %>
+			</div>
+			<div class="col-lg-9">
+				<br />
+				<div class="container">
+					Found <span id="found-count">213 members</span> that match your criteria:
+					<div class="gallery">
+						<% @contacts.each_slice(3) do |contact_slice| %>
+							<% contact_slice.each do |contact| %>
+							<div class="col-lg-2 person" data-contact="<%= contact.to_json %>" data-detail="<%= @details[contact.Id].to_json %>">
+								<div class="thumbnail">
+									<img src="http://placehold.it/100x100">
+									<div class="caption" style="text-align: center;">
+										<%= contact.Name %>
+									</div>
+								</div>
+							</div>
+							<% end %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane" id="vouch">...</div>
+		<div class="tab-pane" id="follow">...</div>
+	</div>
+</div>
